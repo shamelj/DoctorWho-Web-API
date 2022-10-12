@@ -43,6 +43,12 @@ public class EpisodeRepository : IEpisodeRepository
         dbEpisode.SeriesNumber = episode.SeriesNumber;
         await _context.SaveChangesAsync();
     }
+
+    public IQueryable<Episode> GetAllEpisodes()
+    {
+        return _context.Episodes.AsQueryable();
+    }
+
     public async Task DeleteEpisodeAsync(int id)
     {
         var episode = new Episode() { Id = id };

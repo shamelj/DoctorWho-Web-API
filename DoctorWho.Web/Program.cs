@@ -18,10 +18,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // AutoMapper configuration
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-// Adding Services
-builder.Services.AddScoped<IDoctorService, DoctorService>();
+// Db Context
 builder.Services.AddDbContext<DoctorWhoCoreDbContext>();
+// Adding Services/Repositories
+builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<IEpisodeService,EpisodeService>();
+builder.Services.AddScoped<IEpisodeRepository,EpisodeRepository>();
+
 //validation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IValidator<DoctorCreationDto>, DoctorCreationDtoValidator>();
