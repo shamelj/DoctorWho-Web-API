@@ -1,6 +1,6 @@
 ﻿using DoctorWho.DB.models;
 
-namespace DoctorWho.Repositories
+namespace DoctorWho.DB.Repositories
 {
     public interface IAuthorRepository
     {

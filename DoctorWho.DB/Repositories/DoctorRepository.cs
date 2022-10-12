@@ -1,8 +1,7 @@
-using DoctorWho.DB;
 using DoctorWho.DB.models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorWho.Repositories;
+namespace DoctorWho.DB.Repositories;
 
 public class DoctorRepository : IDoctorRepository
 {
@@ -17,9 +16,9 @@ public class DoctorRepository : IDoctorRepository
     {
         return await _context.Doctors.FindAsync(id);
     }
-    public async Task<List<Doctor>> GetDoctorsAsync()
+    public  IQueryable<Doctor> GetDoctors()
     {
-        return await _context.Doctors.ToListAsync();
+        return _context.Doctors.AsQueryable();
     }
     public async Task<Doctor> AddDoctorAsync(Doctor doctor)
     {

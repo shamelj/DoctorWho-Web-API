@@ -1,13 +1,13 @@
 ﻿using DoctorWho.DB.models;
 
-namespace DoctorWho.Repositories
+namespace DoctorWho.DB.Repositories
 {
     public interface IDoctorRepository
     {
         Task<Doctor> AddDoctorAsync(Doctor doctor);
         Task DeleteDoctorAsync(int id);
         Task<Doctor?> GetDoctorAsync(int id);
-        Task<List<Doctor>> GetDoctorsAsync();
+        IQueryable<Doctor> GetDoctors();
         Task UpdateDoctorAsync(int id, Doctor doctor);
     }
 }

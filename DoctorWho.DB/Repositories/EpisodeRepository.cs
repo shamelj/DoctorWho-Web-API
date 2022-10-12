@@ -1,8 +1,7 @@
-﻿using DoctorWho.DB;
-using DoctorWho.DB.models;
+﻿using DoctorWho.DB.models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DoctorWho.Repositories;
+namespace DoctorWho.DB.Repositories;
 
 public class EpisodeRepository : IEpisodeRepository
 {
