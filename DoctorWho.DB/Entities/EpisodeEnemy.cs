@@ -4,6 +4,7 @@ namespace DoctorWho.DB.models;
 [Table("EpisodeEnemy")]
 public class EpisodeEnemy
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     #region Navigation properties

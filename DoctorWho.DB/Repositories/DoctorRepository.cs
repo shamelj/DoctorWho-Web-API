@@ -20,24 +20,36 @@ public class DoctorRepository : IDoctorRepository
     {
         return _context.Doctors.AsQueryable();
     }
-    public async Task<Doctor> AddDoctorAsync(Doctor doctor)
+    public Doctor AddDoctorAsync(Doctor doctor)
     {
         _context.Doctors.Add(doctor);
-        await _context.SaveChangesAsync();
         return doctor;
     }
-    public async Task UpdateDoctorAsync(int id, Doctor doctor)
+    public async Task<Doctor> UpdateDoctorAsync(int id, Doctor doctor)
     {
-        var dbDoctor = await _context.Doctors.FindAsync(id);
-        if (dbDoctor is null)
-            throw new ArgumentException("Doctor doesn't exist.");
-        dbDoctor.Name = doctor.Name;
-        dbDoctor.Number = doctor.Number;
-        dbDoctor.FirstEpisodeDate = doctor.FirstEpisodeDate;
-        dbDoctor.LastEpisodeDate = doctor.LastEpisodeDate;
-        dbDoctor.BirthDate = doctor.BirthDate;
+        var dbDoctor = await  _context.Doctors.FindAsync(id);
+        if (dbDoctor != null)
+        {
+            dbDoctor.Name = doctor.Name;
+            dbDoctor.Number = doctor.Number;
+            dbDoctor.FirstEpisodeDate = doctor.FirstEpisodeDate;
+            dbDoctor.LastEpisodeDate = doctor.LastEpisodeDate;
+            dbDoctor.BirthDate = doctor.BirthDate;
+            return dbDoctor;
+        }
+        return null!;
+    }
+
+    public async Task<bool> DoctorExists(int id)
+    {
+        return  await _context.Doctors.AnyAsync(doctor => doctor.Id == id);
+    }
+
+    public async Task SaveChangesAsync()
+    {
         await _context.SaveChangesAsync();
     }
+
     public async Task DeleteDoctorAsync(int id)
     {
         var doctor = new Doctor() { Id = id };

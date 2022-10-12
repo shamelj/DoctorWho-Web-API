@@ -1,13 +1,18 @@
 using DoctorWho.DB;
 using DoctorWho.DB.Repositories;
+using DoctorWho.Web.Filters;
+using DoctorWho.Web.Models;
 using DoctorWho.Web.Services;
+using DoctorWho.Web.Validators;
 using FluentValidation;
+using FluentValidation.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add<ModelStateFilter>());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -17,7 +22,10 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddDbContext<DoctorWhoCoreDbContext>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
-builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+//validation
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddScoped<IValidator<DoctorCreationDto>, DoctorCreationDtoValidator>();
+
 
 var app = builder.Build();
 

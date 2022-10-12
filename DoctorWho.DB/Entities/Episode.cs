@@ -5,6 +5,7 @@ namespace DoctorWho.DB.models;
 [Table("Episode")]
 public class Episode
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public int SeriesNumber { get; set; }
     public int EpisodeNumber { get; set; }

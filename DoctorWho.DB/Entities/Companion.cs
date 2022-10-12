@@ -4,6 +4,7 @@ namespace DoctorWho.DB.models;
 [Table("Companion")]
 public class Companion
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string Name { get; set; }
     public string WhoPlayed { get; set; }

@@ -12,16 +12,22 @@ public class EpisodeRepository : IEpisodeRepository
         _context = context;
     }
 
-    public async Task<Episode?> GetEnemyAsync(int id)
+    public async Task<Episode?> GetEpisodeAsync(int id)
     {
         return await _context.Episodes.FindAsync(id);
     }
-    public async Task<Episode> AddEnemyAsync(Episode episode)
+    public async Task<Episode> AddEpisodeAsync(Episode episode)
     {
         _context.Episodes.Add(episode);
         await _context.SaveChangesAsync();
         return episode;
     }
+
+    public void DeleteEpisode(int id)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task UpdateEpisodeAsync(int id, Episode episode)
     {
         var dbEpisode = await _context.Episodes.FindAsync(id);
@@ -41,18 +47,15 @@ public class EpisodeRepository : IEpisodeRepository
     {
         var episode = new Episode() { Id = id };
         _context.Entry(episode).State = EntityState.Deleted;
-        await _context.SaveChangesAsync();
     }
 
     public async Task AddEnemyToEpisode(int episodeId, int enemyId)
     {
-        var episode = await _context.Episodes.FindAsync(episodeId);
-        if (episode is null)
-            return;
-        var enemy = await _context.Enemys.FindAsync(enemyId);
-        if (enemy is null)
-            return;
-        _context.EpisodeEnemys.Add(new EpisodeEnemy() { EnemyId = enemyId, EpisodeId = episodeId });
+        await _context.EpisodeEnemys.AddAsync(new EpisodeEnemy() { EnemyId = enemyId, EpisodeId = episodeId });
+    }
+
+    public async Task SaveChangesAsync()
+    {
         await _context.SaveChangesAsync();
     }
 }

@@ -4,10 +4,10 @@ namespace DoctorWho.DB.Repositories
 {
     public interface IEpisodeRepository
     {
-        Task<Episode> AddEnemyAsync(Episode episode);
+        Task<Episode?> GetEpisodeAsync(int id);
+        Task<Episode> AddEpisodeAsync(Episode episode);
         Task AddEnemyToEpisode(int episodeId, int enemyId);
-        Task DeleteEpisodeAsync(int id);
-        Task<Episode?> GetEnemyAsync(int id);
+        void DeleteEpisode(int id);
         Task UpdateEpisodeAsync(int id, Episode episode);
     }
 }
