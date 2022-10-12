@@ -50,11 +50,10 @@ public class DoctorRepository : IDoctorRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteDoctorAsync(int id)
+    public void DeleteDoctorAsync(int id)
     {
         var doctor = new Doctor() { Id = id };
         _context.Entry(doctor).State = EntityState.Deleted;
-        await _context.SaveChangesAsync();
     }
 
 }

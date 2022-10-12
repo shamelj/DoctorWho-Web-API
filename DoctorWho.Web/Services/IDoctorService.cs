@@ -8,4 +8,5 @@ public interface IDoctorService
     Task<DoctorDto> CreateDoctor(DoctorDto doctorDto);
     Task<bool> DoctorExists(int id);
     Task<DoctorDto> UpdateDoctorAsync(int id, DoctorDto doctorDto);
+    Task DeleteDoctor(int id);
 }   

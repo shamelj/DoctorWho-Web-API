@@ -39,5 +39,12 @@ namespace DoctorWho.Web.Controllers
             var doctorDto = await _doctorService.UpdateDoctorAsync(id, _mapper.Map<DoctorDto>(doctorCreationDto));
             return Ok(doctorDto);
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteDoctor([FromRoute] int id)
+        {
+            await _doctorService.DeleteDoctor(id);
+            return NoContent();
+        }
     }
 }

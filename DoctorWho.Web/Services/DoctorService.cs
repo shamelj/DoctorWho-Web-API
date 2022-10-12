@@ -41,4 +41,10 @@ public class DoctorService : IDoctorService
         await _doctorRepository.SaveChangesAsync();
         return _mapper.Map<DoctorDto>(doctorEntity);
     }
+
+    public async Task DeleteDoctor(int id)
+    {
+        _doctorRepository.DeleteDoctorAsync(id);
+        await _doctorRepository.SaveChangesAsync();
+    }
 }
