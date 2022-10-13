@@ -1,4 +1,5 @@
 using AutoMapper;
+using DoctorWho.DB.models;
 using DoctorWho.DB.Repositories;
 using DoctorWho.Web.Models;
 using Microsoft.EntityFrameworkCore;
@@ -21,5 +22,12 @@ class EpisodeService : IEpisodeService
         return await _episodeRepository.GetAllEpisodes()
             .Select(episodeEntity => _mapper.Map<EpisodeDto>(episodeEntity))
             .ToListAsync();
+    }
+
+    public async Task<EpisodeDto> CreateEpisode(EpisodeDto episodeDto)
+    {
+        var episodeEntity = await _episodeRepository.AddEpisodeAsync(_mapper.Map<Episode>(episodeDto));
+        await _episodeRepository.SaveChangesAsync();
+        return _mapper.Map<EpisodeDto>(episodeEntity);
     }
 }

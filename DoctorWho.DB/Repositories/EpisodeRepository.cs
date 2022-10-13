@@ -18,8 +18,7 @@ public class EpisodeRepository : IEpisodeRepository
     }
     public async Task<Episode> AddEpisodeAsync(Episode episode)
     {
-        _context.Episodes.Add(episode);
-        await _context.SaveChangesAsync();
+        await _context.Episodes.AddAsync(episode);
         return episode;
     }
 
@@ -31,24 +30,23 @@ public class EpisodeRepository : IEpisodeRepository
     public async Task UpdateEpisodeAsync(int id, Episode episode)
     {
         var dbEpisode = await _context.Episodes.FindAsync(id);
-        if (dbEpisode is null)
-            throw new ArgumentException("Episode doesn't exist.");
-        dbEpisode.Title = episode.Title;
-        dbEpisode.Notes = episode.Notes;
-        dbEpisode.AuthorId = episode.AuthorId;
-        dbEpisode.DoctorId = dbEpisode.DoctorId;
-        dbEpisode.EpisodeDate = episode.EpisodeDate;
-        dbEpisode.EpisodeNumber = episode.EpisodeNumber;
-        dbEpisode.Type = episode.Type;
-        dbEpisode.SeriesNumber = episode.SeriesNumber;
-        await _context.SaveChangesAsync();
+        if (dbEpisode != null)
+        {
+            dbEpisode.Title = episode.Title;
+            dbEpisode.Notes = episode.Notes;
+            dbEpisode.AuthorId = episode.AuthorId;
+            dbEpisode.DoctorId = dbEpisode.DoctorId;
+            dbEpisode.EpisodeDate = episode.EpisodeDate;
+            dbEpisode.EpisodeNumber = episode.EpisodeNumber;
+            dbEpisode.Type = episode.Type;
+            dbEpisode.SeriesNumber = episode.SeriesNumber;
+        }
     }
 
     public IQueryable<Episode> GetAllEpisodes()
     {
         return _context.Episodes.AsQueryable();
     }
-
     public async Task DeleteEpisodeAsync(int id)
     {
         var episode = new Episode() { Id = id };
