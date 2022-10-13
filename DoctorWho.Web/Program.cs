@@ -29,6 +29,7 @@ builder.Services.AddScoped<IEpisodeRepository,EpisodeRepository>();
 //validation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IValidator<DoctorCreationDto>, DoctorCreationDtoValidator>();
+builder.Services.AddScoped<IValidator<EpisodeCreationDto>,EpisodeCreationDtoValidator>();
 
 
 var app = builder.Build();

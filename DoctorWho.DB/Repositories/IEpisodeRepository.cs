@@ -10,5 +10,6 @@ namespace DoctorWho.DB.Repositories
         void DeleteEpisode(int id);
         Task UpdateEpisodeAsync(int id, Episode episode);
         IQueryable<Episode> GetAllEpisodes();
+        Task SaveChangesAsync();
     }
 }

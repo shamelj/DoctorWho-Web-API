@@ -1,8 +1,7 @@
 namespace DoctorWho.Web.Models;
 
-public class EpisodeDto
+public class EpisodeCreationDto
 {
-    public int? Id { get; set; }
     public int SeriesNumber { get; set; }
     public int EpisodeNumber { get; set; }
     public string Type { get; set; }
