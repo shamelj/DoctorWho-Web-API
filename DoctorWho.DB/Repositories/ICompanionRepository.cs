@@ -4,9 +4,11 @@ namespace DoctorWho.DB.Repositories
 {
     public interface ICompanionRepository
     {
-        Task<Companion> AddCompanionAsync(Companion companion);
-        Task DeleteCompanionAsync(int id);
+        void AddCompanion(Companion companion);
+        void DeleteCompanion(int id);
         Task<Companion?> GetCompanionAsync(int id);
-        Task UpdateCompanionAsync(int id, Companion companion);
+        void UpdateCompanion(Companion companion);
+        Task<int> SaveChangesAsync();
+
     }
 }

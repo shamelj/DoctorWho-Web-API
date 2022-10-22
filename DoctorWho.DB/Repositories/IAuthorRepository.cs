@@ -4,9 +4,11 @@ namespace DoctorWho.DB.Repositories
 {
     public interface IAuthorRepository
     {
-        Task<Author> AddAuthor(Author author);
-        Task DeleteAuthorAsync(int id);
+        void AddAuthor(Author author);
+        void DeleteAuthor(int id);
         Task<Author?> GetAuthorAsync(int id);
-        Task UpdateAuthorAsync(int id, Author author);
+        void UpdateAuthor(Author author);
+        Task<int> SaveChangesAsync();
+
     }
 }

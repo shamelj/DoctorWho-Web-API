@@ -16,50 +16,34 @@ public class EpisodeRepository : IEpisodeRepository
     {
         return await _context.Episodes.FindAsync(id);
     }
-    public async Task<Episode> AddEpisodeAsync(Episode episode)
+    public void AddEpisode(Episode episode)
     {
-        await _context.Episodes.AddAsync(episode);
-        return episode;
+        _context.Episodes.Add(episode);
     }
 
+    public void UpdateEpisode(Episode episode)
+    {
+        _context.Entry(episode).State = EntityState.Modified;
+
+    }
+
+    public async Task<IEnumerable<Episode>> GetAllEpisodes()
+    {
+        return await _context.Episodes.ToListAsync();
+    }
     public void DeleteEpisode(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task UpdateEpisodeAsync(int id, Episode episode)
-    {
-        var dbEpisode = await _context.Episodes.FindAsync(id);
-        if (dbEpisode != null)
-        {
-            dbEpisode.Title = episode.Title;
-            dbEpisode.Notes = episode.Notes;
-            dbEpisode.AuthorId = episode.AuthorId;
-            dbEpisode.DoctorId = dbEpisode.DoctorId;
-            dbEpisode.EpisodeDate = episode.EpisodeDate;
-            dbEpisode.EpisodeNumber = episode.EpisodeNumber;
-            dbEpisode.Type = episode.Type;
-            dbEpisode.SeriesNumber = episode.SeriesNumber;
-        }
-    }
-
-    public IQueryable<Episode> GetAllEpisodes()
-    {
-        return _context.Episodes.AsQueryable();
-    }
-    public async Task DeleteEpisodeAsync(int id)
     {
         var episode = new Episode() { Id = id };
         _context.Entry(episode).State = EntityState.Deleted;
     }
 
-    public async Task AddEnemyToEpisode(int episodeId, int enemyId)
+    public void AddEnemyToEpisode(int episodeId, int enemyId)
     {
-        await _context.EpisodeEnemys.AddAsync(new EpisodeEnemy() { EnemyId = enemyId, EpisodeId = episodeId });
+        _context.EpisodeEnemys.Add(new EpisodeEnemy() { EnemyId = enemyId, EpisodeId = episodeId });
     }
 
-    public async Task SaveChangesAsync()
+    public async Task<int> SaveChangesAsync()
     {
-        await _context.SaveChangesAsync();
+        return await _context.SaveChangesAsync();
     }
 }

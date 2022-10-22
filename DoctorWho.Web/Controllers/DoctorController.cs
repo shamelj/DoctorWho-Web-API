@@ -36,7 +36,9 @@ namespace DoctorWho.Web.Controllers
         {
             if (! await _doctorService.DoctorExists(id))
                 return NotFound();
-            var doctorDto = await _doctorService.UpdateDoctorAsync(id, _mapper.Map<DoctorDto>(doctorCreationDto));
+            var doctorDto = _mapper.Map<DoctorDto>(doctorCreationDto);
+            doctorDto.Id = id;
+            doctorDto = await _doctorService.UpdateDoctorAsync(doctorDto);
             return Ok(doctorDto);
         }
 

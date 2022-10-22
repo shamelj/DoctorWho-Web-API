@@ -6,28 +6,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DoctorWho.Web.Services;
 
-class EpisodeService : IEpisodeService
+public class EpisodeService : IEpisodeService
 {
-    private readonly IEpisodeRepository _episodeRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     
-    public EpisodeService(IEpisodeRepository episodeRepository, IMapper mapper)
+    public EpisodeService(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        _episodeRepository = episodeRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
 
     public async Task<List<EpisodeDto>> GetAllEpisodesAsync()
     {
-        return await _episodeRepository.GetAllEpisodes()
+        return (await _unitOfWork.EpisodeRepository.GetAllEpisodes())
             .Select(episodeEntity => _mapper.Map<EpisodeDto>(episodeEntity))
-            .ToListAsync();
+            .ToList();
     }
 
     public async Task<EpisodeDto> CreateEpisode(EpisodeDto episodeDto)
     {
-        var episodeEntity = await _episodeRepository.AddEpisodeAsync(_mapper.Map<Episode>(episodeDto));
-        await _episodeRepository.SaveChangesAsync();
-        return _mapper.Map<EpisodeDto>(episodeEntity);
+        _unitOfWork.EpisodeRepository.AddEpisode(_mapper.Map<Episode>(episodeDto));
+        await _unitOfWork.SaveChangesAsync();
+        var createdEpisode = _unitOfWork.EpisodeRepository.GetEpisodeAsync(episodeDto.Id);
+        return _mapper.Map<EpisodeDto>(createdEpisode);
     }
 }

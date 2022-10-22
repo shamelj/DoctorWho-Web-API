@@ -16,25 +16,21 @@ public class EnemyRepository : IEnemyRepository
     {
         return await _context.Enemys.FindAsync(id);
     }
-    public async Task<Enemy> AddEnemyAsync(Enemy enemy)
+    public void AddEnemy(Enemy enemy)
     {
         _context.Enemys.Add(enemy);
-        await _context.SaveChangesAsync();
-        return enemy;
     }
-    public async Task UpdateEnemyAsync(int id, Enemy enemy)
+    public void UpdateEnemy(Enemy enemy)
     {
-        var dbEnemy = await _context.Enemys.FindAsync(id);
-        if (dbEnemy is null)
-            throw new ArgumentException("Enemy doesn't exist.");
-        dbEnemy.Name = enemy.Name;
-        dbEnemy.Description = enemy.Description;
-        await _context.SaveChangesAsync();
+        _context.Entry(enemy).State = EntityState.Modified;
     }
-    public async Task DeleteEnemyAsync(int id)
+    public void DeleteEnemy(int id)
     {
         var enemy = new Enemy() { Id = id };
         _context.Entry(enemy).State = EntityState.Deleted;
-        await _context.SaveChangesAsync();
+    }
+    public async Task<int> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync();
     }
 }

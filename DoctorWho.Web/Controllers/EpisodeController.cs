@@ -23,7 +23,6 @@ namespace DoctorWho.Web.Controllers
         {
             return Ok(await _episodeService.GetAllEpisodesAsync());
         }
-        
         //TODO validate if author and doctor exist, if not not send 400 response.
         [HttpPost]
         public async Task<ActionResult<int>> CreateEpisode([FromBody] EpisodeCreationDto episodeCreationDto)
@@ -31,7 +30,5 @@ namespace DoctorWho.Web.Controllers
             EpisodeDto episodeDto = await _episodeService.CreateEpisode(_mapper.Map<EpisodeDto>(episodeCreationDto));
             return Ok(episodeDto.Id);
         }
-
-   
     }
 }
