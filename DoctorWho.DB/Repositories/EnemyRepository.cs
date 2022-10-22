@@ -33,4 +33,9 @@ public class EnemyRepository : IEnemyRepository
     {
         return await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> Exists(int enemyId)
+    {
+     return await _context.Enemys.AnyAsync(enemy => enemy.Id == enemyId);
+    }
 }

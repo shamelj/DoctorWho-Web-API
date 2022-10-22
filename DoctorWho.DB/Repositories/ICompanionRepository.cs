@@ -10,5 +10,6 @@ namespace DoctorWho.DB.Repositories
         void UpdateCompanion(Companion companion);
         Task<int> SaveChangesAsync();
 
+        Task<bool> Exists(int companionId);
     }
 }

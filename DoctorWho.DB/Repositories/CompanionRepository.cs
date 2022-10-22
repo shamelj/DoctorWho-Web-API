@@ -34,4 +34,9 @@ public class CompanionRepository : ICompanionRepository
     {
         return await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> Exists(int companionId)
+    {
+        return await _context.Companions.AnyAsync(companion => companion.Id == companionId);
+    }
 }
