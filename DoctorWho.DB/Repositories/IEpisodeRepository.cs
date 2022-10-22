@@ -5,11 +5,11 @@ namespace DoctorWho.DB.Repositories
     public interface IEpisodeRepository
     {
         Task<Episode?> GetEpisodeAsync(int id);
-        Task<Episode> AddEpisodeAsync(Episode episode);
-        Task AddEnemyToEpisode(int episodeId, int enemyId);
+        void AddEpisode(Episode episode);
+        void AddEnemyToEpisode(int episodeId, int enemyId);
         void DeleteEpisode(int id);
-        Task UpdateEpisodeAsync(int id, Episode episode);
-        IQueryable<Episode> GetAllEpisodes();
-        Task SaveChangesAsync();
+        void UpdateEpisode(Episode episode);
+        Task<IEnumerable<Episode>> GetAllEpisodes();
+        Task<int> SaveChangesAsync();
     }
 }

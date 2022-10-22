@@ -16,28 +16,17 @@ public class DoctorRepository : IDoctorRepository
     {
         return await _context.Doctors.FindAsync(id);
     }
-    public  IQueryable<Doctor> GetDoctors()
+    public  Task<List<Doctor>> GetDoctorsAsync()
     {
-        return _context.Doctors.AsQueryable();
+        return _context.Doctors.ToListAsync();
     }
-    public Doctor AddDoctorAsync(Doctor doctor)
+    public void AddDoctor(Doctor doctor)
     {
         _context.Doctors.Add(doctor);
-        return doctor;
     }
-    public async Task<Doctor> UpdateDoctorAsync(int id, Doctor doctor)
+    public void UpdateDoctor(Doctor doctor)
     {
-        var dbDoctor = await  _context.Doctors.FindAsync(id);
-        if (dbDoctor != null)
-        {
-            dbDoctor.Name = doctor.Name;
-            dbDoctor.Number = doctor.Number;
-            dbDoctor.FirstEpisodeDate = doctor.FirstEpisodeDate;
-            dbDoctor.LastEpisodeDate = doctor.LastEpisodeDate;
-            dbDoctor.BirthDate = doctor.BirthDate;
-            return dbDoctor;
-        }
-        return null!;
+        _context.Entry(doctor).State = EntityState.Modified;
     }
 
     public async Task<bool> DoctorExists(int id)
@@ -45,15 +34,13 @@ public class DoctorRepository : IDoctorRepository
         return  await _context.Doctors.AnyAsync(doctor => doctor.Id == id);
     }
 
-    public async Task SaveChangesAsync()
-    {
-        await _context.SaveChangesAsync();
-    }
-
-    public void DeleteDoctorAsync(int id)
+    public void DeleteDoctor(int id)
     {
         var doctor = new Doctor() { Id = id };
         _context.Entry(doctor).State = EntityState.Deleted;
     }
-
+    public async Task<int> SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync();
+    }
 }

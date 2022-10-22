@@ -23,13 +23,15 @@ builder.Services.AddDbContext<DoctorWhoCoreDbContext>();
 // Adding Services/Repositories
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
-builder.Services.AddScoped<IEpisodeService,EpisodeService>();
-builder.Services.AddScoped<IEpisodeRepository,EpisodeRepository>();
+builder.Services.AddScoped<IEpisodeService, EpisodeService>();
+builder.Services.AddScoped<IEpisodeRepository, EpisodeRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 //validation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IValidator<DoctorCreationDto>, DoctorCreationDtoValidator>();
-builder.Services.AddScoped<IValidator<EpisodeCreationDto>,EpisodeCreationDtoValidator>();
+builder.Services.AddScoped<IValidator<EpisodeCreationDto>, EpisodeCreationDtoValidator>();
 
 
 var app = builder.Build();

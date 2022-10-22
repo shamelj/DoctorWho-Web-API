@@ -8,43 +8,45 @@ namespace DoctorWho.Web.Services;
 
 public class DoctorService : IDoctorService
 {
-    private readonly IDoctorRepository _doctorRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public DoctorService(IDoctorRepository doctorRepository, IMapper mapper)
+    public DoctorService(IUnitOfWork unitOfWork, IMapper mapper)
     {
-        this._doctorRepository = doctorRepository;
+        this._unitOfWork = unitOfWork;
         _mapper = mapper;
     }
     public async Task<List<DoctorDto>> GetAllDoctorsAsync()
     {
-        var doctors = _doctorRepository.GetDoctors();
-        return await doctors
-                .Select(doctorEntity => _mapper.Map<DoctorDto>(doctorEntity))
-                .ToListAsync();
+        var doctors = await _unitOfWork.DoctorRepository.GetDoctorsAsync();
+        return doctors
+            .Select(doctorEntity => _mapper.Map<DoctorDto>(doctorEntity))
+            .ToList();
     }
 
     public async Task<DoctorDto> CreateDoctor(DoctorDto doctorDto)
     {
-        var doctorEntity =  _doctorRepository.AddDoctorAsync(_mapper.Map<Doctor>(doctorDto));
-        await _doctorRepository.SaveChangesAsync();
-        return _mapper.Map<DoctorDto>(doctorEntity);
+        _unitOfWork.DoctorRepository.AddDoctor(_mapper.Map<Doctor>(doctorDto));
+        await _unitOfWork.SaveChangesAsync();
+        var insertedDoctor = await _unitOfWork.DoctorRepository.GetDoctorAsync(doctorDto.Id);
+        return _mapper.Map<DoctorDto>(insertedDoctor);
     }
 
     public async Task<bool> DoctorExists(int id)
     {
-        return await _doctorRepository.DoctorExists(id);
+        return await _unitOfWork.DoctorRepository.DoctorExists(id);
     }
-    public async Task<DoctorDto> UpdateDoctorAsync(int id, DoctorDto doctorDto)
+    public async Task<DoctorDto> UpdateDoctorAsync(DoctorDto doctorDto)
     {
-        var doctorEntity = await _doctorRepository.UpdateDoctorAsync(id,_mapper.Map<Doctor>(doctorDto));
-        await _doctorRepository.SaveChangesAsync();
-        return _mapper.Map<DoctorDto>(doctorEntity);
+        _unitOfWork.DoctorRepository.UpdateDoctor(_mapper.Map<Doctor>(doctorDto));
+        await _unitOfWork.SaveChangesAsync();
+        var updatedDoctor = await _unitOfWork.DoctorRepository.GetDoctorAsync(doctorDto.Id);
+        return _mapper.Map<DoctorDto>(updatedDoctor);
     }
 
     public async Task DeleteDoctor(int id)
     {
-        _doctorRepository.DeleteDoctorAsync(id);
-        await _doctorRepository.SaveChangesAsync();
+        _unitOfWork.DoctorRepository.DeleteDoctor(id);
+        await _unitOfWork.SaveChangesAsync();
     }
 }
