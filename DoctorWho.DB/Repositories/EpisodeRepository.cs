@@ -46,4 +46,14 @@ public class EpisodeRepository : IEpisodeRepository
     {
         return await _context.SaveChangesAsync();
     }
+
+    public async Task<bool> ExistsAsync(int episodeId)
+    {
+        return await _context.Episodes.AnyAsync(episode => episode.Id == episodeId);
+    }
+
+    public void AddCompanionToEpisode(int episodeId, int companionId)
+    {
+        _context.EpisodeCompanions.Add(new EpisodeCompanion() { CompanionId = companionId, EpisodeId = episodeId });
+    }
 }

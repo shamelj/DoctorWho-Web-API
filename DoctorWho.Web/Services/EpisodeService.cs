@@ -31,4 +31,21 @@ public class EpisodeService : IEpisodeService
         var createdEpisode = _unitOfWork.EpisodeRepository.GetEpisodeAsync(episodeDto.Id);
         return _mapper.Map<EpisodeDto>(createdEpisode);
     }
+
+    public async Task<bool> ExistsAsync(int episodeId)
+    {
+        return await _unitOfWork.EpisodeRepository.ExistsAsync(episodeId);
+    }
+
+    public async Task AddEnemyToEpisode(int episodeId, int enemyId)
+    {
+        _unitOfWork.EpisodeRepository.AddEnemyToEpisode(episodeId,enemyId);
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task AddCompanionToEpisode(int episodeId, int companionId)
+    {
+        _unitOfWork.EpisodeRepository.AddCompanionToEpisode(episodeId, companionId);
+        await _unitOfWork.SaveChangesAsync();
+    }
 }

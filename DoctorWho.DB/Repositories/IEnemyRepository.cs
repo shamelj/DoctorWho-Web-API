@@ -10,5 +10,6 @@ namespace DoctorWho.DB.Repositories
         void UpdateEnemy(Enemy enemy);
         Task<int> SaveChangesAsync();
 
+        Task<bool> Exists(int enemyId);
     }
 }

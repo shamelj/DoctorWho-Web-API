@@ -11,5 +11,7 @@ namespace DoctorWho.DB.Repositories
         void UpdateEpisode(Episode episode);
         Task<IEnumerable<Episode>> GetAllEpisodes();
         Task<int> SaveChangesAsync();
+        Task<bool> ExistsAsync(int episodeId);
+        void AddCompanionToEpisode(int episodeId, int companionId);
     }
 }
